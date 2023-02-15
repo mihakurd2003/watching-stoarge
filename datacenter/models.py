@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.db import models
 
 
@@ -28,3 +30,22 @@ class Visit(models.Model):
                 if self.leaved_at else 'not leaved'
             )
         )
+
+    @staticmethod
+    def get_duration(visit):
+        if not visit.leaved_at:
+            return datetime.now().astimezone() - visit.entered_at
+
+        return visit.leaved_at - visit.entered_at
+
+    @staticmethod
+    def format_duration(duration):
+        return timedelta(seconds=int(duration.total_seconds()))
+
+    @staticmethod
+    def is_visit_long(visit, minutes=60):
+        duration = Visit.get_duration(visit)
+        if duration.total_seconds() // 60 > minutes:
+            return True
+
+        return False

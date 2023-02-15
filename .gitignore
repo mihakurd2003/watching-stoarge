@@ -141,5 +141,7 @@ cython_debug/
 .replit
 poetry.lock
 pyproject.toml
+.idea/
+
 
 
