@@ -1,5 +1,4 @@
-from datetime import datetime, timedelta
-
+from datetime import datetime
 from django.db import models
 
 
@@ -40,12 +39,11 @@ class Visit(models.Model):
 
     @staticmethod
     def format_duration(duration):
-        return timedelta(seconds=int(duration.total_seconds()))
+        seconds = duration.total_seconds()
+        minutes, hours = int(seconds // 60) % 60, int(seconds // 3600)
+        return f'{hours}ч {minutes}мин'
 
     @staticmethod
     def is_visit_long(visit, minutes=60):
         duration = Visit.get_duration(visit)
-        if duration.total_seconds() // 60 > minutes:
-            return True
-
-        return False
+        return duration.total_seconds() // 60 > minutes
