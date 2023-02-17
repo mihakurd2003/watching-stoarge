@@ -33,17 +33,18 @@ class Visit(models.Model):
     @staticmethod
     def get_duration(visit):
         if not visit.leaved_at:
-            return datetime.now().astimezone() - visit.entered_at
+            duration = datetime.now().astimezone() - visit.entered_at
+            return duration.total_seconds()
 
-        return visit.leaved_at - visit.entered_at
+        duration = visit.leaved_at - visit.entered_at
+        return duration.total_seconds()
 
     @staticmethod
     def format_duration(duration):
-        seconds = duration.total_seconds()
-        minutes, hours = int(seconds // 60) % 60, int(seconds // 3600)
+        minutes, hours = int(duration // 60) % 60, int(duration // 3600)
         return f'{hours}ч {minutes}мин'
 
     @staticmethod
     def is_visit_long(visit, minutes=60):
         duration = Visit.get_duration(visit)
-        return duration.total_seconds() // 60 > minutes
+        return duration // 60 > minutes
