@@ -23,6 +23,6 @@ pip install -r requirements.txt
 ### Как пользоваться
 - В терминале набирайте следующую команду
 ```
-python3 main.py
+python3 manage.py runserver
 ```
 - Затем переходите по адресу [127.0.0.1:8000](http://127.0.0.1:8000/)
